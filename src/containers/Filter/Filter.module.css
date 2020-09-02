@@ -4,11 +4,51 @@
     padding-top: 100px;
     flex-grow: 1;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     background: linear-gradient(90deg, #A469CB 0%, #348F97 100%)
+}
+
+.Filter button {
+    padding-right: 10px;
+    max-width: 600px;
+    margin: auto
+}
+
+.Filter > div {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
 }
 
 .Filter h1 {
     color: #fff;
     text-align: center;
+}
+
+.FilterField {
+    background: #eee;
+    box-shadow: 2px 2px 2px rgba(0,0,0, .5);
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Filter .filterParams {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.Filter ul { 
+    margin: 0;
+    padding: 0;
+}
+
+.Filter ul li{
+    margin: 10px;
+    list-style-type: none;
 }

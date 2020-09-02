@@ -1,37 +1,28 @@
-import React, { Component } from 'react';
+import React, {useContext} from 'react';
 import Layout from './hoc/Layout/Layout';
 import {Route, Switch, Redirect} from 'react-router-dom'
-import Auth from './containers/Auth/Auth';
-import Filter from './containers/Filter/Filter';
+import {authorizedContext} from './authorized/authorized'
+import FormWrap from './authorized/formWrap';
+import FilterWrap from './containers/Filter/filterWrap/filterWrap';
 
-export const authorizedContext = React.createContext(false)
-export const tokenContext = React.createContext('')
 
-class App extends Component {
+const App = (props) => {
+  const authorized = useContext(authorizedContext)
 
-  state = {
-    token: '',
-    authorized: false
-  }
-
-  render() {
     return (
       <Layout>
         <Switch>
-          {this.state.authorized ? 
-            <Route path='/filter' component={Filter}></Route> :
-            
-            <tokenContext.Provider value={this.state.token}>
-              <authorizedContext.Provider value={this.state.authorized}>
-                <Route path='/' component={Auth}></Route>
-              </authorizedContext.Provider>
-            </tokenContext.Provider>
+          <Route path={'/filter'} component={FilterWrap}></Route>
+          {
+            authorized ?
+            <Redirect to={'/filter'}/>:
+            <Route path={'/'} component={FormWrap} ></Route>
           }
-          <Redirect to={'/'}/>
+          <Route path={'/'} component={FormWrap} ></Route>
         </Switch>
       </Layout>
     ) 
   }
-}
+
 
 export default App;

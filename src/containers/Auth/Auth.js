@@ -3,7 +3,6 @@ import classes from './Auth.module.css'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import axios from 'axios'
-import { authorizedContext, tokenContext } from '../../App'
 
 class Auth extends Component {
 
@@ -33,7 +32,8 @@ class Auth extends Component {
           minLength: 1
         }
       }
-    }
+    },
+    acceptToken: ''
   }
 
   loginHandler = async () => {
@@ -42,21 +42,21 @@ class Auth extends Component {
       username: this.state.formControls.name.value,
       password: this.state.formControls.password.value,
     }
+    
     try {
     const response = await axios.post('http://emphasoft-test-assignment.herokuapp.com/api-token-auth/', AuthToken)
     
-    console.log(response.data)  
-
-    this.props.token=response.data.token
-    if (this.props.token.length !== 0) {
-      this.props.authorized=true
-      console.log('Авторизовано')
-    }
-    console.log('токен', this.state.token, 'авторизация ', this.state.authorized)
+    this.setState({
+      acceptToken: response.data.token
+    })
     
+    this.props.acceptProp(this.state.acceptToken)
+
     } catch (e) {
       console.log(e)
     }
+    console.log(this.state.acceptToken)
+
   }
   
   submitHandler = (event) => {
@@ -92,7 +92,6 @@ class Auth extends Component {
     this.setState({
       formControls
     })
-  
   }
 
   renderInputs() {
@@ -115,21 +114,18 @@ class Auth extends Component {
   }
 
   render () {
+
     return (
-      <div className={classes.Auth}>
-        <div>
-          <h1>Авторизация</h1>
-            <form onSubmit={this.submitHandler} className={classes.AuthForm}>
-              
-              { this.renderInputs() }
-            <tokenContext.Consumer>
-              <authorizedContext.Consumer>
+        <div className={classes.Auth}>
+            <div>
+              <h1>Авторизация</h1>
+              <form onSubmit={this.submitHandler} className={classes.AuthForm}>
+                { this.renderInputs() }
                 <Button type="success" onClick={this.loginHandler}>Войти</Button>
-              </authorizedContext.Consumer>
-            </tokenContext.Consumer>
-            </form>
+                
+              </form>
+            </div>     
         </div>
-      </div>
     )
   }
 }

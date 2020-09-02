@@ -1,0 +1,12 @@
+.Select {
+    
+}
+
+.Select label {
+    margin-right: 10px;
+}
+
+.Select select {
+    font-size: 14px;
+    font-weight: 700;
+}
